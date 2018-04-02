@@ -5,7 +5,8 @@
     <Name>Dagger</Name>
     <RootNamespace>Dagger</RootNamespace>
     <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
-    <LaunchUrl>index.html</LaunchUrl>
+    <LaunchUrl>
+    </LaunchUrl>
     <NodeExeArguments>--inspect-brk</NodeExeArguments>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -14,10 +15,10 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>979b1bae-5de1-4b62-a246-2be23407e4a1</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>server.js</StartupFile>
+    <StartupFile>dist/server/server.js</StartupFile>
     <SearchPath>
     </SearchPath>
-    <WorkingDirectory>.</WorkingDirectory>
+    <WorkingDirectory>dist/client</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
@@ -31,26 +32,33 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="client\scripts\meshes\Mesh.js" />
+    <Compile Include="client\scripts\MeshRenderer.js" />
+    <Compile Include="client\scripts\meshes\SquareMesh.js" />
+    <Compile Include="client\scripts\shaders\Base.shader.js" />
+    <Compile Include="client\scripts\shaders\Square.shader.js" />
+    <Compile Include="client\scripts\site.js" />
     <Compile Include="gulpfile.js" />
-    <Compile Include="site.js" />
-    <Compile Include="scripts\mesh.js" />
-    <Compile Include="scripts\MeshRenderer.js" />
-    <Compile Include="scripts\SquareMesh.js" />
-    <Compile Include="server.js" />
-    <Compile Include="StatusCodes.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Content Include=".babelrc" />
+    <Compile Include="server\server.js" />
+    <Compile Include="server\StatusCodes.js" />
     <Content Include=".eslintrc.yml" />
-    <Content Include="index.html" />
+    <Content Include="client\.babelrc" />
+    <Content Include="client\index.html" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
-    <Content Include="shaders\base.shader.js" />
-    <Content Include="shaders\square.shader.js" />
+    <Content Include="server\.babelrc" />
+    <Content Include="client\styles\site.css">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="scripts\" />
-    <Folder Include="shaders\" />
+    <Folder Include="client\" />
+    <Folder Include="client\pages\" />
+    <Folder Include="client\scripts\" />
+    <Folder Include="client\scripts\meshes\" />
+    <Folder Include="client\scripts\shaders\" />
+    <Folder Include="client\styles\" />
+    <Folder Include="server\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

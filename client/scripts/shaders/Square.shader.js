@@ -16,7 +16,7 @@
    limitations under the License.
 */
 
-import BaseShader from "./base.shader.js";
+import BaseShader from "./base.shader.min.js";
 
 const VERTEX = `
     attribute vec4 aVertexPosition;

@@ -16,9 +16,9 @@
    limitations under the License.
 */
 
-import SquareShader from "./shaders/square.shader.js";
-import SquareMesh from "./scripts/SquareMesh.js";
-import MeshRenderer from "./scripts/MeshRenderer.js";
+import SquareShader from "./shaders/square.shader.min.js";
+import SquareMesh from "./meshes/SquareMesh.min.js";
+import MeshRenderer from "./MeshRenderer.min.js";
 
 (function() {
 

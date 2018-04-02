@@ -16,7 +16,7 @@
    limitations under the License.
 */
 
-import Mesh from "./Mesh.js";
+import Mesh from "./Mesh.min.js";
 
 const VERTICES = [
     1.0,   1.0,
