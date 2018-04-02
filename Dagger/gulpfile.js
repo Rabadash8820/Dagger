@@ -70,7 +70,11 @@ Gulp.task("post:scripts", ["convert:scripts"], () => {
     Gulp.src(tmpJS).pipe(RmRF());
 });
 Gulp.task("convert:scripts", ["pre:scripts"], cb => {
-    const srcGlob = [].map(path => srcJS + path + ".js");
+    const srcGlob = [
+        srcJS + "index",
+        srcJS + "scripts/*",
+        srcJS + "shaders/*.shader"
+    ].map(path => srcJS + path + ".js");
     let srcStream = Gulp.src(srcGlob, { base: srcJS }).pipe(Gulp.dest(tmpJS));
     let destStream = Gulp.dest(destJS);
     convertScripts(srcStream, destStream, {
