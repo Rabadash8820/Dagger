@@ -18,6 +18,9 @@
 
 "use strict";
 
+// MODULES
+require("source-map-support").install();
+
 // 2xx
 exports.Success200 = 200;
 exports.NoContent204 = 204;

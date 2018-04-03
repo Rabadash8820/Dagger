@@ -19,6 +19,7 @@
 "use strict";
 
 // MODULES
+require("source-map-support").install();
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
