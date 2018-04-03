@@ -1,4 +1,5 @@
-﻿/*
+﻿/// <binding BeforeBuild='build' />
+/*
    Dagger, gulpfile.js
   
    Copyright April 2, 2018 Dan Vicarel
@@ -16,7 +17,6 @@
    limitations under the License.
 */
 
-/// <binding BeforeBuild='build' Clean='clean' />
 "use strict";
 
 // MODULES
