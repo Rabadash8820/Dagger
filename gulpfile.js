@@ -1,6 +1,6 @@
 ﻿/// <binding BeforeBuild='build' />
 /*
-   Dagger, gulpfile.js
+   Gistory, gulpfile.js
   
    Copyright April 2, 2018 Dan Vicarel
 

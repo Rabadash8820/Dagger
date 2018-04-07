@@ -1,5 +1,5 @@
 {
-    "name": "Dagger",
+    "name": "Gistory",
     "description": "A WebGL-based tool for viewing a repository's commit history as a 3D graph.",
     "version": "0.1.0",
     "dependencies": {

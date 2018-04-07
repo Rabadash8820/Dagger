@@ -1,5 +1,5 @@
 /*
-   Dagger, Square.shader.js
+   Gistory, Square.shader.js
   
    Copyright April 2, 2018 Dan Vicarel
 

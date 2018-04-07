@@ -1,5 +1,5 @@
 /*
-   Dagger, MeshRenderer.js
+   Gistory, MeshRenderer.js
   
    Copyright April 2, 2018 Dan Vicarel
 

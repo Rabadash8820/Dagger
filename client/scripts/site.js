@@ -1,5 +1,5 @@
 /*
-   Dagger, index.js
+   Gistory, index.js
 
    Copyright April 2, 2018 Dan Vicarel
 

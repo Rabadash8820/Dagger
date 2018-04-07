@@ -1,5 +1,5 @@
 ﻿/*
-   Dagger, StatusCodes.js
+   Gistory, StatusCodes.js
 
    Copyright April 2, 2018 Dan Vicarel
 

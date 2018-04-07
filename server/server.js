@@ -1,5 +1,5 @@
 /*
-   Dagger, server.js
+   Gistory, server.js
 
    Copyright April 2, 2018 Dan Vicarel
 
