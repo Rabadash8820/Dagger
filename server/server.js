@@ -28,7 +28,7 @@ const url = require("url");
 const router = require("router");
 const finalHandler = require("finalhandler");
 const StatusCodes = require("./StatusCodes");
-const WWWROOT = __dirname + "/../client";
+const WWWROOT = __dirname + "/wwwroot";
 
 const ROUTER_OPTS = {
     strict: false,          // Trailing slash is ignored, e.g. /products and /products/ map to same route
