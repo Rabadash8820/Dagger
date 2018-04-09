@@ -40,31 +40,39 @@ const CSSLint = require("gulp-csslint");
 const CSSMin = require("gulp-cssmin");
 
 // PATHS
-const src = "./";
-const dest = "dist/";
+const src = ".";
+const dest = "dist";
 const maps = "maps/";
 
-const serverRoot = "server/";
+const serverRoot = "/server";
 const serverSrc  = src  + serverRoot;
 
-const clientSrc  = src  + "client/";
-const clientDest = dest + "wwwroot/";
+const clientSrc  = src  + "/client";
+const clientDest = dest + "/wwwroot";
 
-const scripts = "scripts/";
-const pages = "pages/";
-const styles = "styles/";
+const scripts = "/scripts";
+const pages = "/pages";
+const styles = "/styles";
 
 // MAIN TASKS
 Gulp.task("default", Tasks.withFilters(null, "default"));
-Gulp.task("build", ["scripts:server:transform", "scripts:client:transform", "pages:transform", "styles:transform"]);
-Gulp.task("clean", () => clean(dest));
-Gulp.task("server", ["scripts:server:transform"], () => { });
-Gulp.task("client", ["scripts:client:transform"], () => { });
-Gulp.task("pages",  ["pages:transform"         ], () => { });
-Gulp.task("styles", ["styles:transform"        ], () => { });
+Gulp.task("build", ["server:transform", "client:transform"]);
+Gulp.task("clean", () => clean([
+    `${dest}/*`,
+    `!${clientDest}`
+]));
+Gulp.task("server",  ["server:transform"]);
+Gulp.task("client",  ["client:transform"        ]);
+Gulp.task("scripts", ["scripts:client:transform"]);
+Gulp.task("pages",   ["pages:transform"         ]);
+Gulp.task("styles",  ["styles:transform"        ]);
 
 // SERVER-SIDE SCRIPT TASKS
-Gulp.task("scripts:server:transform", ["scripts:server:pre"], cb => {
+Gulp.task("server:pre", () => clean([
+    `${dest}/*`,
+    `!${clientDest}`
+]));
+Gulp.task("server:transform", ["server:pre"], cb => {
     const srcGlob = serverSrc + "**/*.js";
     let srcStream = Gulp.src(srcGlob, { base: serverSrc });
     let destStream = Gulp.dest(dest);
@@ -75,11 +83,14 @@ Gulp.task("scripts:server:transform", ["scripts:server:pre"], cb => {
         concatName: null
     }, cb);
 });
-Gulp.task("scripts:server:pre", () => clean(dest));
 
-// CLIENT-SIDE SCRIPT TASKS
-Gulp.task("scripts:client:transform", ["scripts:client:pre"], cb => {
-    const srcGlob = clientSrc + scripts + "**/*.js";
+// CLIENT-SIDE TASKS
+Gulp.task("client:pre", () => clean([
+    `${clientDest}/*`
+]));
+Gulp.task("client:transform", ["scripts:client:transform", "pages:transform", "styles:transform"]);
+Gulp.task("scripts:client:transform", ["client:pre"], cb => {
+    const srcGlob = clientSrc + scripts + "/**/*.js";
     let srcStream = Gulp.src(srcGlob, { base: clientSrc });
     let destStream = Gulp.dest(clientDest);
     transformScripts(srcStream, destStream, {
@@ -89,24 +100,18 @@ Gulp.task("scripts:client:transform", ["scripts:client:pre"], cb => {
         concatName: null
     }, cb);
 });
-Gulp.task("scripts:client:pre", () => clean(clientDest + scripts));
-
-// WEBPAGE TASKS
-Gulp.task("pages:transform", ["pages:pre"], cb => {
+Gulp.task("pages:transform", ["client:pre"], cb => {
     const srcGlob = [
-        clientSrc + "index.html",
-        clientSrc + pages + "**/*.html"
+        clientSrc + "/index.html",
+        clientSrc + pages + "/**/*.html"
     ];
     Pump([
         Gulp.src(srcGlob, { base: clientSrc }),
         Gulp.dest(clientDest)
     ], cb);
 });
-Gulp.task("pages:pre", () => clean(clientDest + pages));
-
-// STYLESHEET TASKS
-Gulp.task("styles:transform", ["styles:pre"], cb => {
-    const srcGlob = clientSrc + styles + "**/*.css";
+Gulp.task("styles:transform", ["client:pre"], cb => {
+    const srcGlob = clientSrc + styles + "/**/*.css";
     let srcStream = Gulp.src(srcGlob, { base: clientSrc });
     let destStream = Gulp.dest(clientDest);
     transformStyles(srcStream, destStream, {
@@ -115,7 +120,6 @@ Gulp.task("styles:transform", ["styles:pre"], cb => {
         concatName: null
     }, cb);
 });
-Gulp.task("styles:pre", () => clean(clientDest + styles));
 
 // HELPERS
 function isDev() {
