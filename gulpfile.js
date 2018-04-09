@@ -143,7 +143,7 @@ function transformScripts(srcStream, destStream, options, cb) {
         options.lint ? ESLint.failAfterError() : NoOp(),
         options.concatName ? Concat(concatName) : NoOp(),   // bundle
         options.transpile ? Babel() : NoOp(),               // transpile / minify
-        options.minify ? Rename(path => path.extname = ".min.js") : NoOp(),
+        (options.minify || options.minifyExtName) ? Rename(path => path.extname = options.minifyExtName || ".min.js") : NoOp(),
         isDev() ? SourceMaps.write(maps) : NoOp(),
         destStream
     ], cb);
@@ -161,7 +161,7 @@ function transformStyles(srcStream, destStream, options, cb) {
         options.lint ? CSSLint.formatter() : NoOp(),
         options.concatName ? Concat(concatName) : NoOp(),   // bundle
         options.minify ? CSSMin() : NoOp(),                 // minify
-        options.minify ? Rename(path => path.extname = ".min.css") : NoOp(),
+        (options.minify || options.minifyExtName) ? Rename(path => path.extname = options.minifyExtName || ".min.css") : NoOp(),
         isDev() ? SourceMaps.write(maps) : NoOp(),
         destStream
     ], cb);
