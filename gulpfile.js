@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='build' />
+﻿/// <binding BeforeBuild='build' Clean='clean' />
 /*
    Gistory, gulpfile.js
   
