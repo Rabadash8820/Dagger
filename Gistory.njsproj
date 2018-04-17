@@ -54,6 +54,7 @@
     <Content Include="client\styles\site.css">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="server\appconfig.json"/>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="client\" />

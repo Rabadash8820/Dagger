@@ -28,6 +28,8 @@ const Tasks = require("gulp-task-listing");
 const Pump = require("pump");
 const Merge = require("merge-stream");
 
+const Config = require("./server/appconfig");
+
 const RmRF = require("gulp-rimraf");
 const Rename = require("gulp-rename");
 const SourceMaps = require("gulp-sourcemaps");
@@ -56,16 +58,16 @@ const styles = "/styles";
 
 // MAIN TASKS
 Gulp.task("default", Tasks.withFilters(null, "default"));
-Gulp.task("build", ["server:transform", "client:transform"]);
+Gulp.task("build", ["server", "client"]);
 Gulp.task("clean", () => clean([
     `${dest}/*`,
     `!${clientDest}`
 ]));
-Gulp.task("server",  ["server:transform"]);
-Gulp.task("client",  ["client:transform"        ]);
-Gulp.task("scripts", ["scripts:client:transform"]);
-Gulp.task("pages",   ["pages:transform"         ]);
-Gulp.task("styles",  ["styles:transform"        ]);
+Gulp.task("server",  [ "server:transform", "server:configs" ]);
+Gulp.task("client",  [ "client:transform" ]);
+Gulp.task("scripts", [ "scripts:client:transform" ]);
+Gulp.task("pages",   [ "pages:transform" ]);
+Gulp.task("styles",  [ "styles:transform" ]);
 
 // SERVER-SIDE SCRIPT TASKS
 Gulp.task("server:pre", () => clean([
@@ -82,6 +84,13 @@ Gulp.task("server:transform", ["server:pre"], cb => {
         minify: false,
         concatName: null
     }, cb);
+});
+Gulp.task("server:configs", ["server:pre"], cb => {
+    const srcGlob = serverSrc + "**/*.json";
+    Pump([
+        Gulp.src(srcGlob, { base: serverSrc }),
+        Gulp.dest(dest)
+    ], cb);
 });
 
 // CLIENT-SIDE TASKS
@@ -143,7 +152,7 @@ function transformScripts(srcStream, destStream, options, cb) {
         options.lint ? ESLint.failAfterError() : NoOp(),
         options.concatName ? Concat(concatName) : NoOp(),   // bundle
         options.transpile ? Babel() : NoOp(),               // transpile / minify
-        (options.minify || options.minifyExtName) ? Rename(path => path.extname = options.minifyExtName || ".min.js") : NoOp(),
+        (options.minify || options.minifyExtName) ? Rename(path => path.extname = options.minifyExtName || Config.extensions.scripts) : NoOp(),
         isDev() ? SourceMaps.write(maps) : NoOp(),
         destStream
     ], cb);
@@ -161,7 +170,7 @@ function transformStyles(srcStream, destStream, options, cb) {
         options.lint ? CSSLint.formatter() : NoOp(),
         options.concatName ? Concat(concatName) : NoOp(),   // bundle
         options.minify ? CSSMin() : NoOp(),                 // minify
-        (options.minify || options.minifyExtName) ? Rename(path => path.extname = options.minifyExtName || ".min.css") : NoOp(),
+        (options.minify || options.minifyExtName) ? Rename(path => path.extname = options.minifyExtName || Config.extensions.styles) : NoOp(),
         isDev() ? SourceMaps.write(maps) : NoOp(),
         destStream
     ], cb);
