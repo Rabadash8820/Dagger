@@ -48,6 +48,7 @@ Router.get("/index.htm",  getIndex);
 Router.get("/index.html", getIndex);
 
 Router.get("/site.js", (req, res) => getFile(req, res, req.url));
+Router.get("/jspm-config.js", (req, res) => getFile(req, res, req.url));
 
 const Scripts = router(ROUTER_OPTS);
 Router.use("/scripts", Scripts);

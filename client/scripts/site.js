@@ -34,9 +34,9 @@ import MeshRenderer from "./MeshRenderer";
             return;
         }
 
-        const squareShader = new SquareShader(gl);
-        const squareMesh = new SquareMesh(gl);
-        MeshRenderer.draw(gl, squareShader.program, squareMesh);
+        const sqrShdrProg = new SquareShader(gl).program;
+        const sqrMesh = new SquareMesh(gl);
+        MeshRenderer.draw(gl, sqrMesh, sqrShdrProg);
     }
 
 })();

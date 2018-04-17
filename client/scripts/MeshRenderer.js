@@ -16,7 +16,7 @@
    limitations under the License.
 */
 
-const GLMatrix = require("glmatrix");
+const GLMatrix = require("gl-matrix");
 const mat4 = GLMatrix.mat4;
 
 export default class MeshRenderer {
@@ -51,7 +51,7 @@ export default class MeshRenderer {
             const normalize = false;  // don't normalize
             const stride = 0;         // how many bytes to get from one set of values to the next (0 = use type and numComponents above)
             const offset = 0;         // how many bytes inside the buffer to start from
-            gl.bindBuffer(gl.ARRAY_BUFFER, mesh.vertices.position);
+            gl.bindBuffer(gl.ARRAY_BUFFER, mesh.vertices);
             gl.vertexAttribPointer(
                 shaderProgram.attribLocations.vertexPosition,
                 numComponents,

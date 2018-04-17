@@ -20,16 +20,18 @@
 
 <html lang="en">
 <head>
-    <title>WebGL Test</title>
+    <title>Gistory</title>
     <meta charset="utf-8">
-    <meta name="description" content="A shnazzy test of WebGL!">
+    <meta name="description" content="A WebGL-based tool for viewing a repository's commit history as a 3D graph.">
     <meta name="author" content="Dan Vicarel">
 </head>
 
 <body>
     <canvas id="glCanvas" width="640" height="480"></canvas>
-
-    <script type="module" src="scripts/site.min.js">
+    <script src="jspm_packages/system.js"></script>
+    <script src="jspm-config.js"></script>
+    <script>
+        System.import("site");
     </script>
 </body>
 </html>

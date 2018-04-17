@@ -61,7 +61,10 @@ Gulp.task("default", Tasks.withFilters(null, "default"));
 Gulp.task("build", ["server", "client"]);
 Gulp.task("clean", () => clean([
     `${dest}/*`,
-    `!${clientDest}`
+    `!${clientDest}`,
+    `${clientDest}/*`,
+    `!${clientDest}/jspm-config.js`,
+    `!${clientDest}/jspm_packages`
 ]));
 Gulp.task("server",  [ "server:transform", "server:configs" ]);
 Gulp.task("client",  [ "client:transform" ]);
@@ -95,7 +98,9 @@ Gulp.task("server:configs", ["server:pre"], cb => {
 
 // CLIENT-SIDE TASKS
 Gulp.task("client:pre", () => clean([
-    `${clientDest}/*`
+    `${clientDest}/*`,
+    `!${clientDest}/jspm-config.js`,
+    `!${clientDest}/jspm_packages`
 ]));
 Gulp.task("client:transform", ["scripts:client:transform", "pages:transform", "styles:transform"]);
 Gulp.task("scripts:client:transform", ["client:pre"], cb => {
