@@ -16,7 +16,7 @@ env:
 extends: "eslint:recommended"
 rules:
   no-console: off
-  indent: [ error, 4, { SwitchCase: 1, MemberExpression: 0 } ]
+  indent: [ error, 4, { SwitchCase: 1, MemberExpression: off,  } ]
   linebreak-style: [ error, windows ]
   quotes: [ error, double ]
   semi: [ error, always ]
