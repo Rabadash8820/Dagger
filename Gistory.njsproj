@@ -43,18 +43,13 @@
     <Compile Include="server\server.js" />
     <Compile Include="server\StatusCodes.js" />
     <Content Include=".eslintrc.yml" />
-    <Content Include=".gitignore" />
     <Content Include="client\.babelrc" />
     <Content Include="client\index.html" />
-    <Content Include="LICENSE" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
-    <Content Include="README.md" />
     <Content Include="server\.babelrc" />
-    <Content Include="client\styles\site.css">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="server\appconfig.json"/>
+    <Content Include="client\styles\site.css" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="client\" />
