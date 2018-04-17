@@ -28,6 +28,7 @@ const url = require("url");
 const router = require("router");
 const finalHandler = require("finalhandler");
 const StatusCodes = require("./StatusCodes");
+const Config = require("./appconfig");
 const WWWROOT = __dirname + "/wwwroot";
 
 const ROUTER_OPTS = {
@@ -50,7 +51,24 @@ Router.get("/site.js", (req, res) => getFile(req, res, req.url));
 
 const Scripts = router(ROUTER_OPTS);
 Router.use("/scripts", Scripts);
-Scripts.use((req, res) => getFile(req, res, "/scripts" + req.url));
+Scripts.use((req, res) => {
+    // One or more pieces of the desired file extension may be present...
+    // Replace them with the actual desired file extension
+    let url = req.url;
+    const ext = Config.extensions.scripts;
+    ext.split(".")
+       .filter(x => x !== "")
+       .map(x => "." + x)
+       .forEach(x => url = url.replace(x, ""));
+
+    // Then search for the file with that extension in the appropriate sub-directory
+    url = "/scripts" + url + ext;
+    getFile(req, res, url);
+});
+
+const Packages = router(ROUTER_OPTS);
+Router.use("/jspm_packages", Packages);
+Packages.use((req, res) => getFile(req, res, "/jspm_packages" + req.url));
 
 const Shaders = router(ROUTER_OPTS);
 Router.use("/shaders", Shaders);
