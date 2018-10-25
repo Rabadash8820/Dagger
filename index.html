@@ -22,16 +22,13 @@
 <head>
     <title>Gistory</title>
     <meta charset="utf-8">
-    <meta name="description" content="A WebGL-based tool for viewing a repository's commit history as a 3D graph.">
+    <meta name="description" content="A Three.js-based tool for viewing a repository's commit history as a 3D graph.">
     <meta name="author" content="Dan Vicarel">
+    <link rel="stylesheet" type="text/css" href="dist/styles/site.css">
 </head>
 
 <body>
-    <canvas id="glCanvas" width="640" height="480"></canvas>
-    <script src="jspm_packages/system.js"></script>
-    <script src="jspm-config.js"></script>
-    <script>
-        System.import("site");
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js" integrity="sha512-Ltd4ZR+4j4t1V3uYO8gTXBj6wsZwxsomq6G437g5AJueUYj3LRN1NXosYlTdpXs7tD2c/yISzm9SiDkbzvlHaQ==" crossorigin="anonymous"></script>
+    <script src="dist/bundles/index.js"></script>
 </body>
 </html>

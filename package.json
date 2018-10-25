@@ -1,43 +1,36 @@
 {
   "name": "gistory",
-  "description": "A WebGL-based tool for viewing a repository's commit history as a 3D graph.",
+  "description": "A Three.js-based tool for viewing a repository's commit history as a 3D graph.",
   "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "finalhandler": "^1.1.1",
-    "mime-types": "^2.1.18",
-    "router": "^1.3.2",
-    "source-map-support": "^0.5.4"
+    "@babel/runtime": "^7.1.2",
+    "nodegit": "^0.23.0",
+    "three": "^0.97.0"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
     "babel-minify": "^0.3.0",
-    "babel-preset-env": "^1.6.1",
     "eslint": "^4.19.1",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^7.0.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-csslint": "^1.0.1",
-    "gulp-cssmin": "^0.2.0",
-    "gulp-eslint": "^4.0.2",
-    "gulp-print": "^5.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-rimraf": "^0.2.2",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-task-listing": "^1.0.1",
-    "jspm": "^0.16.53",
-    "merge-stream": "^1.0.1",
-    "minimist": "^1.2.0",
-    "pump": "^3.0.0",
-    "through2": "^2.0.3"
+    "mkdirp": "^0.5.1",
+    "stylelint": "^9.6.0",
+    "stylelint-config-recommended": "^2.1.0",
+    "webpack": "^4.23.0",
+    "webpack-cli": "^3.1.2"
   },
-  "jspm": {
-    "directories": {
-      "baseURL": "dist/wwwroot"
-    },
-    "configFile": "dist/wwwroot/jspm-config.js",
-    "dependencies": {
-      "gl-matrix": "npm:gl-matrix@^2.4.1"
-    },
-    "devDependencies": {}
+  "scripts": {
+    "clean": "npm run clean:scripts & npm run clean:styles",
+    "clean:scripts": "rm -rf dist/scripts/ & rm -rf dist/bundles/",
+    "clean:styles": "rm -rf dist/styles/",
+    "build": "npm run build:styles && npm run build:scripts",
+    "build:scripts": "npm run clean:scripts && npm run lint:scripts && npm run transform:scripts && npx webpack --mode=development",
+    "build:styles": "npm run clean:styles && npm run lint:styles && npm run transform:styles",
+    "lint:scripts": "eslint src/scripts/**/*.js",
+    "lint:styles": "stylelint src/styles/**/*.css",
+    "transform:scripts": "babel src/scripts/ --out-dir dist/scripts/",
+    "transform:styles": "npx mkdirp dist/styles && cp -r src/styles/*.css dist/styles"
   }
 }

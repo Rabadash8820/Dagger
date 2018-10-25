@@ -13,6 +13,9 @@ env:
   es6: true
   node: true
 
+globals:
+  THREE: false
+
 extends: "eslint:recommended"
 rules:
   no-console: off
