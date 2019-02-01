@@ -1,5 +1,5 @@
 /*
-   Gistory, index.js
+   Gistory
 
    Copyright April 2, 2018 Dan Vicarel
 
@@ -17,34 +17,46 @@
 */
 
 import * as THREE from "three";
-import CommitGraph from "./CommitGraph";
+import CommitGraph from "../CommitGraph.js";
+import "./index.css";
+import UserControls from "../UserControls.js";
 
 (function() {
 
     // Add objects to scene
     const scene = new THREE.Scene();
     const commitGraph = new CommitGraph(scene);
+    commitGraph.AddToScene(scene);
 
     // Add camera to scene
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
 
     // Initialize controls
-    const canvas = document;    // TODO: make this a specific canvas element
+    const body = new THREE.Object3D();
+    body.position.z = 5;
+    const head = new THREE.Object3D();
+    scene.add(body);
+    body.add(head);
+    head.add(camera);
+    const userControls = new UserControls(body, head);  // eslint-disable-line
 
     // Initialize renderer
-    const renderer = new THREE.WebGLRenderer();
+    const canvas = document.getElementById("main-canvas");
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
 
     // Start the render loop
-    function update() {
-        commitGraph.update();
+    let deltaT = 0;
+    let time = performance.now();
+    function update(timestamp) {
+        deltaT = (timestamp - time) / 1000;
+        time = timestamp;
+        userControls.Update(deltaT);
 
         renderer.render(scene, camera);
 
         requestAnimationFrame(update);
     }
-    update();
+    update(performance.now());
 
 })();
