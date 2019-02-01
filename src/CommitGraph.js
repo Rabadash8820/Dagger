@@ -1,5 +1,5 @@
 /*
-   Gistory, GraphGenerator.js
+   Gistory
 
    Copyright October 25, 2018 Dan Vicarel
 
@@ -16,35 +16,29 @@
    limitations under the License.
 */
 
-let _scene;
-let _generated;
-
-let _cube;
+import * as THREE from "three";
+// import * as Git from "nodegit";
 
 export default class CommitGraph {
 
-    constructor(scene) {
-        _scene = scene;
+    constructor() { }
 
-        _generated = false;
-    }
-
-    update() {
-        if (!_generated) {
-            this.generate();
-            _generated = true;
-        }
-
-        _cube.rotation.x += 0.01;
-        _cube.rotation.y += 0.01;
-    }
-
-    generate() {
+    AddToScene(scene) {
         const cubeMesh = new THREE.BoxGeometry(1, 1, 1);
         const cubeMat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        _cube = new THREE.Mesh(cubeMesh, cubeMat);
 
-        _scene.add(_cube);
+        [
+            0,
+            2,
+            4,
+            6,
+            8
+        ].forEach(coord => {
+            const mesh = new THREE.Mesh(cubeMesh, cubeMat);
+            scene.add(mesh);
+            mesh.position.x = coord;
+            mesh.position.z = -5;
+        });
     }
 
 }
