@@ -21,6 +21,7 @@ import * as THREE from "three";
 let _body;
 let _head;
 let _eventSource;
+let _rotating = false;
 
 const MoreMath = {
     Sin45: Math.SQRT2 / 2,
@@ -40,7 +41,7 @@ const Keys = {
 };
 const InputState = {
     TranslateDirection: new THREE.Vector3(),
-    PointerClientCoords: { X: 0, Y: 0 }
+    RotateDirection: new THREE.Vector2()
 };
 const Config = {
     CanTranslate: true,
@@ -49,8 +50,7 @@ const Config = {
     LimitDiagonalSpeed: true,
 
     CanRotate: true,
-    MaxRotateSpeed: 30.0,    // Degrees/s
-    NoRotateWindowFraction: { X: 0.25, Y: 0.25 }     // Fraction of DOM window height/width (from center of window) where mouse movement will not cause rotation
+    MaxRotateSpeed: 60.0,    // Degrees/s
 };
 
 export default class UserControls {
@@ -62,6 +62,7 @@ export default class UserControls {
 
         _eventSource.addEventListener("contextmenu",  onContextMenu, false);
         _eventSource.addEventListener("mousedown",    onMouseDown,   false);
+        _eventSource.addEventListener("mouseup",      onMouseUp,     false);
         _eventSource.addEventListener("mousemove",    onMouseMove,   false);
         _eventSource.addEventListener("touchstart",   onTouchStart,  false);
         _eventSource.addEventListener("touchend",     onTouchEnd,    false);
@@ -73,17 +74,17 @@ export default class UserControls {
     Update(deltaTime) {
         if (Config.CanTranslate)
             translate(deltaTime);
-        if (Config.CanRotate)
+        if (Config.CanRotate && _rotating)
             rotate(deltaTime);
     }
-
 }
 
 function onContextMenu(e) { }
-function onMouseDown(e) { }
+function onMouseDown(e) { _rotating = true; }
+function onMouseUp(e) { _rotating = false; }
 function onMouseMove(e) {
-    InputState.PointerClientCoords.X = e.clientX;
-    InputState.PointerClientCoords.Y = e.clientY;
+    InputState.RotateDirection.x = e.movementX / window.screen.width;
+    InputState.RotateDirection.y = e.movementY / window.screen.height;
 }
 function onTouchStart(e) { }
 function onTouchEnd(e) { }
@@ -132,16 +133,8 @@ function translate(deltaTime) {
     _body.translateOnAxis(unitVelocity, speed);
 }
 function rotate(deltaTime) {
-    const speed = Config.MaxRotateSpeed * MoreMath.Deg2Rad * deltaTime;
-    const horz = 0.5 - InputState.PointerClientCoords.X / window.innerWidth;
-    const vert = 0.5 - InputState.PointerClientCoords.Y / window.innerHeight;
-
-    const noRotateWindowHalf = {
-        X: Config.NoRotateWindowFraction.X / 2,
-        Y: Config.NoRotateWindowFraction.Y / 2
-    };
-    if (horz < -noRotateWindowHalf.X || noRotateWindowHalf.X < horz)
-        _body.rotateY(speed * horz);
-    if (vert < -noRotateWindowHalf.Y || noRotateWindowHalf.Y < vert)
-        _head.rotateX(speed * vert);
+    // Confusingly, x-movement of cursor should rotate around y-axis, and vice versa
+    const speed = Config.MaxRotateSpeed * MoreMath.Deg2Rad;
+    _body.rotateY(speed * InputState.RotateDirection.x);
+    _head.rotateX(speed * InputState.RotateDirection.y);
 }
