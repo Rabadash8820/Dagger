@@ -42,7 +42,10 @@ import UserControls from "../UserControls.js";
 
     // Initialize renderer
     const canvas = document.getElementById("main-canvas");
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas });
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true
+    });
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     // Start the render loop
