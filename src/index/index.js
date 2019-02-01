@@ -29,7 +29,7 @@ import UserControls from "../UserControls.js";
     commitGraph.AddToScene(scene);
 
     // Add camera to scene
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 1000);
 
     // Initialize controls
     const body = new THREE.Object3D();
@@ -46,7 +46,6 @@ import UserControls from "../UserControls.js";
         canvas: canvas,
         antialias: true
     });
-    renderer.setSize(window.innerWidth, window.innerHeight);
 
     // Start the render loop
     let deltaT = 0;
@@ -56,10 +55,26 @@ import UserControls from "../UserControls.js";
         time = timestamp;
         userControls.Update(deltaT);
 
+        fitRendererToCanvas();
         renderer.render(scene, camera);
 
         requestAnimationFrame(update);
     }
     update(performance.now());
+
+    // This method inspired by: https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container
+    function fitRendererToCanvas() {
+        // Look up the size the canvas is being displayed
+        const canvas = renderer.domElement;
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+      
+        // Adjust displayBuffer size to match
+        if (canvas.width !== width || canvas.height !== height) {
+            renderer.setSize(width, height, false);   // False to prevent style changes to <canvas> element
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        }
+    }
 
 })();
